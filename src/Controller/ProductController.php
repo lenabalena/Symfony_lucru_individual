@@ -77,4 +77,18 @@ public function update($id)
         'id' => $product->getId()
     ]);
 }
+ 
+ /**
+  *@Route("/product/delete/{id}", name="product_delete")
+  */
+ public function delete($id)
+ {
+ 	$product = $this->getDoctrine()->getRepository(Product::class)->find($id);
+ 	$entityManager=$this->getDoctrine()->getManager();
+
+ 	$entityManager->remove($product);
+ 	$entityManager->flush();
+ 	return new Response('Deleted product with id '.$id);
+ }
+
 }
