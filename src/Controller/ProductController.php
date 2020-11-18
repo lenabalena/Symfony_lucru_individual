@@ -56,7 +56,7 @@ public function show($id)
 }
 
 /**
- * @Route("/product/edit/{id}", name="product_update")
+ * @Route("/product/edit/{id}", name="product_edit")
  */
 public function update($id)
 {
@@ -89,6 +89,14 @@ public function update($id)
  	$entityManager->remove($product);
  	$entityManager->flush();
  	return new Response('Deleted product with id '.$id);
+ }
+ /**
+ *@Route("/list", name="product_list")
+ */
+ public function showAll()
+ {
+ 	$products = $this->getDoctrine() ->getRepository(Product::class)->findAll();
+ 	return $this->render('product/list.html.twig',['products'=>$products,]);
  }
 
 }
