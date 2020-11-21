@@ -4,34 +4,55 @@
 namespace App\Controller;
 
 // ...
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 class ProductController extends AbstractController
-{
+{ 
     /**
-     * @Route("/product", name="create_product")
-     */
-     public function createProduct(ValidatorInterface $validator): Response
-    { 	   $entityManager = $this->getDoctrine()->getManager();
+    *@Route("/index", name="index")
+    */
+    public function index()
+    {
+        return $this->render('base.html.twig' ,['controller_name'=> 'HomeController',]);
+    }
+
+    /**
+    * @Route("/helloUser/{name}", name="helloUser")
+    */
+    public function helloUser(Request $request, $name)
+    { $form = $this->createFormBuilder()
+        ->add('fullname')
+        ->getForm()
+        ;
+     $person = [ 'name'=>'marilena',
+                'lastname'=>'dobrovolschi',
+                'age'=> 23];
+       
+
+    	  
         $product = new Product();
         // This will trigger an error: the column isn't nullable in the database
-        $product->setName('Shoes');
+        $product->setName('Coconut Pasta');
         // This will trigger a type mismatch error: an integer is expected
-        $product->setPrice('1999');
- 		$product->setDescription('Ergonomic and stylish!');
- 		$entityManager->persist($product);
- 		 $entityManager->flush();
-
-        return new Response('Saved new product with id '.$product->getId());
-
-        $errors = $validator->validate($product);
-        if (count($errors) > 0) {
-            return new Response((string) $errors, 400);
-        }
+        $product->setPrice(65);
+ 		$product->setDescription('So good!');
+         $entityManager = $this->getDoctrine()->getManager();
+         $retrievedProduct =$entityManager->getRepository(Product::class)->findOneBy(
+            [   'id'=> 1
+            ]);
+         var_dump($retrievedProduct);
+ 		//$entityManager->persist($product);
+ 		// $entityManager->flush();
+ return $this->render('greet.html.twig', [
+            'person'=> $person,
+            'product' =>$retrievedProduct,
+            'user_form' =>$form->createView()   ]);
 
 
     }

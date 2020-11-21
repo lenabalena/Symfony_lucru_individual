@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FormController!{% endblock %}
+
+{% block body %}
+{{ form_start(product_form,{'id':'id_product'}) }}
+{{ form(product_form) }}
+{{ form_end(product_form) }}
+{% endblock %}

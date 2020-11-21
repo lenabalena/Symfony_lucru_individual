@@ -1,0 +1,16 @@
+{% extends 'base.html.twig'%}
+{% block title %}Welcome {{ person.name}}{% endblock %}
+ {% block body %}
+<h1>Hello {{person.name}} </h1>
+<h1>Lastname: {{person.lastname}}</h1>
+<h1>Age: {{person.age}}</h1>
+<h1> User Form: </h1>
+{{form(user_form)}}
+
+
+
+<h1>Render the product that I got from database</h1>
+{{product.name}}
+<hr>
+{{product.price}}
+        {% endblock %}
